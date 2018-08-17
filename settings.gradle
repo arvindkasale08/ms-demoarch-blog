@@ -1,7 +1,12 @@
 rootProject.name = 'ms-demoarch-blog'
 
+// domain
 include ':blog-domain'
-include ':blog-api'
+
+// application
 include ':blog-application-service'
+
+// interface adapters
+include ':blog-api'
 include ':blog-persistence'
 
