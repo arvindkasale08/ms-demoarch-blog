@@ -13,10 +13,12 @@ import java.util.function.Function;
 public class EntityMapper {
 
     MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
-    
-    public Function<PostBO, Post> boToEntityMapper = (bo) -> 
-            mapperFactory.getMapperFacade(PostBO.class, Post.class).map(bo);
 
-    public Function<Post, PostBO> entityToBoMapper = (entity) ->
-            mapperFactory.getMapperFacade(Post.class, PostBO.class).map(entity);
+    public Post mapBoToEntity(PostBO bo) {
+        return mapperFactory.getMapperFacade(PostBO.class, Post.class).map(bo);
+    }
+
+    public PostBO mapEntityToBo(Post entity) {
+        return mapperFactory.getMapperFacade(Post.class, PostBO.class).map(entity);
+    }
 }

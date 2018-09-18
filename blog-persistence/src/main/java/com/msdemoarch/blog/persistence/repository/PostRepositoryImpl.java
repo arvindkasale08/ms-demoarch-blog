@@ -1,6 +1,7 @@
 package com.msdemoarch.blog.persistence.repository;
 
 import com.msdemoarch.blog.domain.bo.PostBO;
+import com.msdemoarch.blog.domain.exception.PostNotFoundException;
 import com.msdemoarch.blog.domain.port.repository.PostRepository;
 import com.msdemoarch.blog.persistence.entity.Post;
 import com.msdemoarch.blog.persistence.mapper.EntityMapper;
@@ -26,25 +27,30 @@ public class PostRepositoryImpl implements PostRepository {
 
     @Override
     public Mono<PostBO> addPost(PostBO post) {
-        Post entity = this.mapper.boToEntityMapper.apply(post);
+        Post entity = this.mapper.mapBoToEntity(post);
         return this.dataRepository.save(entity)
-                .map(this.mapper.entityToBoMapper);
+                .map(this.mapper::mapEntityToBo);
     }
 
     @Override
     public Mono<PostBO> findPostById(String id) {
         return this.dataRepository.findById(id)
-                .map(this.mapper.entityToBoMapper);
+                .switchIfEmpty(Mono.error(new Throwable()))
+                .doOnError(e -> { throw new PostNotFoundException("Not found"); })
+                .map(this.mapper::mapEntityToBo);
     }
 
     @Override
     public Mono<Void> deletePostById(String id) {
-        return this.dataRepository.deleteById(id);
+        return this.dataRepository.findById(id)
+                .switchIfEmpty(Mono.error(new Throwable()))
+                .doOnError(e -> { throw new PostNotFoundException("Not found"); })
+                .flatMap(post -> this.dataRepository.delete(post));
     }
 
     @Override
     public Flux<PostBO> findAllPosts() {
         return this.dataRepository.findAll()
-                .map(this.mapper.entityToBoMapper);
+                .map(this.mapper::mapEntityToBo);
     }
 }

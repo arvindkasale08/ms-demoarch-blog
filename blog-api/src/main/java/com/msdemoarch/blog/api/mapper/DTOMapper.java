@@ -14,9 +14,11 @@ public class DTOMapper {
 
     MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
 
-    public Function<PostBO, PostDTO> boToDtoMapper = (bo) ->
-            mapperFactory.getMapperFacade(PostBO.class, PostDTO.class).map(bo);
+    public PostDTO mapBoToDto(PostBO bo) {
+        return mapperFactory.getMapperFacade(PostBO.class, PostDTO.class).map(bo);
+    }
 
-    public Function<PostDTO, PostBO> dtoToBoMapper = (entity) ->
-            mapperFactory.getMapperFacade(PostDTO.class, PostBO.class).map(entity);
+    public PostBO mapDtoToBo(PostDTO dto) {
+        return mapperFactory.getMapperFacade(PostDTO.class, PostBO.class).map(dto);
+    }
 }
