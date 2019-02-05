@@ -8,5 +8,6 @@ include ':blog-application-service'
 
 // interface adapters
 include ':blog-api'
+include ':blog-kafka'
 include ':blog-persistence'
 

@@ -1,21 +1,23 @@
-allprojects {
-	apply plugin: 'idea'
-	
-	group = 'com.msdemoarch'
-	version = '0.0.1-SNAPSHOT'
-}
-
-
 buildscript {
 	ext {
-		springBootVersion = '2.0.4.RELEASE'
 	}
 	repositories {
+		mavenLocal()
 		mavenCentral()
 	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.1.2.RELEASE' apply false
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+allprojects {
+	apply plugin: 'idea'
+
+	group = 'com.msdemoarch'
+	version = '0.0.1-SNAPSHOT'
 }
 
 subprojects {
@@ -24,7 +26,8 @@ subprojects {
 	
 	dependencyManagement {
 		imports {
-			mavenBom 'io.projectreactor:reactor-bom:Bismuth-SR10'
+			mavenBom 'io.projectreactor:reactor-bom:Californium-SR2'
+			mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
 		}
 	}
 	
@@ -34,9 +37,7 @@ subprojects {
 
 	dependencies {
 		compileOnly('org.projectlombok:lombok:1.18.2')
+		annotationProcessor("org.projectlombok:lombok:1.18.2")
 		compile('ma.glasnost.orika:orika-core:1.5.2')
-	
-//		testCompile('org.springframework.boot:spring-boot-starter-test')
-//		testCompile('io.projectreactor:reactor-test')
 	}
 }

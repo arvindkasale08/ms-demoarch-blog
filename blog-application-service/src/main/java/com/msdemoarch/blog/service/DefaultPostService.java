@@ -12,12 +12,12 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-public class PostServiceImpl implements PostService {
+public class DefaultPostService implements PostService {
     
     private PostRepository postRepository;
     
     @Autowired
-    public PostServiceImpl(PostRepository postRepository) {
+    public DefaultPostService(PostRepository postRepository) {
         this.postRepository = postRepository;
     }
 

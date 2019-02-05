@@ -4,19 +4,19 @@ import java.time.format.DateTimeFormatter
 dependencies {
 	compile(
 			project(':blog-domain'),
-			"org.springframework.boot:spring-boot-starter:${springBootVersion}",
+			"org.springframework.boot:spring-boot-starter",
 			"io.projectreactor:reactor-core"
 	)
 
 	runtime(
 			project(':blog-persistence'),
-			project(':blog-api')
+			project(':blog-api'),
+			project(':blog-kafka')
 	)
 }
 
 
 apply plugin: 'org.springframework.boot'
-
 
 springBoot {
     buildInfo {

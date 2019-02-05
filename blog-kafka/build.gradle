@@ -1,0 +1,8 @@
+dependencies {
+    compile(
+            project(':blog-domain'),
+            "io.projectreactor.kafka:reactor-kafka",
+            "org.springframework.boot:spring-boot"
+    )
+//    annotationProcessor "org.springframework.boot:springboot-configuration-processor"
+}
